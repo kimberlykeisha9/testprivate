@@ -1,0 +1,182 @@
+{
+  "check_stripe_status.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "create_room.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "fix_device_orientation_up.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "get_unread_notification_count.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "index.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "print_list_to_console.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "print_to_console.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "refresh_remote_config.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "reorder_tribe_collection_list.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "reorder_tribe_content_list.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "reorder_user_badges.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "set_bool.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "show_update_dialog.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "toggle_wake_lock.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "trigger_app_tracking_permission_dialog.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "content_description_h_t_m_l.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "content_description_h_t_m_l_expanded.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "countdown_timer.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "custom_rich_content_editor.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "custom_video_web_view_widget.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "custom_web_view.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "linkable_text.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "linkable_text_v2.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "rich_text_editor.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "uploader.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "upload_lesson_video_firebase.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "user_mention_text_input_v2.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "version_display.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "video_upload_widget.dart": {
+    "old_identifier_name": "",
+    "new_identifier_name": "",
+    "type": "F",
+    "is_deleted": false
+  },
+  "custom_functions.dart": {
+    "old_identifier_name": "CustomFunctions",
+    "new_identifier_name": "CustomFunctions",
+    "type": "F",
+    "is_deleted": false
+  }
+}

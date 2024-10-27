@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1005726201112",
+    "project_id": "tribe-master-app",
+    "storage_bucket": "tribe-master-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005726201112:android:1f8332703631457060da6d",
+        "android_client_info": {
+          "package_name": "com.wisdomly.onehundredx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1005726201112-g0qkk9e2j9s0jl3710qaus1rlf04qsap.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wisdomly.onehundredx",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "1005726201112-b4hk2ueqpndmtn5rktdljcjf9i2tejgj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB85O7QTJjg9BgKeCw8XYxFAnWrEbJ5Uwk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1005726201112-b4hk2ueqpndmtn5rktdljcjf9i2tejgj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1005726201112-dnj49cnfqqr1v50afaf4uh113nbavgfd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wisdomly.onehundredx",
+                "app_store_id": "6443751894"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
