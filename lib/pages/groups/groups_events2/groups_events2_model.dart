@@ -1,4 +1,3 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/group_list_drawer_content/group_list_drawer_content_widget.dart';
 import '/components/profile_button_widget.dart';

@@ -199,12 +199,6 @@ final parametersBuilderMap =
               data, 'groupDoc', TribeGroupsRecord.fromSnapshot),
         },
       ),
-  'EditGroupAdmin': (data) async => ParameterData(
-        allParams: {
-          'groupRef': getParameter<DocumentReference>(data, 'groupRef'),
-          'isEdit': getParameter<bool>(data, 'isEdit'),
-        },
-      ),
   'GroupContent': (data) async => ParameterData(
         allParams: {
           'collectionRef':
@@ -257,7 +251,6 @@ final parametersBuilderMap =
               data, 'groupDoc', TribeGroupsRecord.fromSnapshot),
         },
       ),
-  'DashboardContent': ParameterData.none(),
   'DashboardMembers': (data) async => ParameterData(
         allParams: {
           'groupDoc': await getDocumentParameter<TribeGroupsRecord>(
@@ -324,30 +317,6 @@ final parametersBuilderMap =
         allParams: {
           'groupDoc': await getDocumentParameter<TribeGroupsRecord>(
               data, 'groupDoc', TribeGroupsRecord.fromSnapshot),
-        },
-      ),
-  'chat_2_Details': (data) async => ParameterData(
-        allParams: {
-          'chatRef': await getDocumentParameter<DirectMessagesChatRecord>(
-              data, 'chatRef', DirectMessagesChatRecord.fromSnapshot),
-        },
-      ),
-  'chat_2_main': (data) async => ParameterData(
-        allParams: {
-          'chat': await getDocumentParameter<DirectMessagesChatRecord>(
-              data, 'chat', DirectMessagesChatRecord.fromSnapshot),
-        },
-      ),
-  'chat_2_InviteUsers': (data) async => ParameterData(
-        allParams: {
-          'chatRef': await getDocumentParameter<DirectMessagesChatRecord>(
-              data, 'chatRef', DirectMessagesChatRecord.fromSnapshot),
-        },
-      ),
-  'image_Details': (data) async => ParameterData(
-        allParams: {
-          'chatMessage': await getDocumentParameter<DirectMessagesRecord>(
-              data, 'chatMessage', DirectMessagesRecord.fromSnapshot),
         },
       ),
   'DashboardPlatformSettings': (data) async => ParameterData(

@@ -140,7 +140,7 @@ class _GroupTrainingListAdminWidgetState
                         builder: (context) => FlutterFlowIconButton(
                           borderRadius: 20.0,
                           borderWidth: 1.0,
-                          buttonSize: 36.0,
+                          buttonSize: 48.0,
                           icon: Icon(
                             Icons.edit,
                             color: FlutterFlowTheme.of(context).secondaryText,
@@ -274,21 +274,18 @@ class _GroupTrainingListAdminWidgetState
                                           ),
                                           Flexible(
                                             flex: 3,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Text(
-                                                  valueOrDefault<String>(
-                                                    containerVarItem.title,
-                                                    'Draft',
-                                                  ).maybeHandleOverflow(
-                                                    maxChars: 40,
-                                                    replacement: '…',
-                                                  ),
-                                                  textAlign: TextAlign.start,
-                                                  maxLines: 2,
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
+                                            child: Text(
+                                              valueOrDefault<String>(
+                                                containerVarItem.title,
+                                                'Draft',
+                                              ).maybeHandleOverflow(
+                                                maxChars: 40,
+                                                replacement: '…',
+                                              ),
+                                              textAlign: TextAlign.start,
+                                              maxLines: 2,
+                                              style:
+                                                  FlutterFlowTheme.of(context)
                                                       .titleSmall
                                                       .override(
                                                         fontFamily:
@@ -309,47 +306,6 @@ class _GroupTrainingListAdminWidgetState
                                                                     .titleSmallFamily),
                                                         lineHeight: 1.0,
                                                       ),
-                                                ),
-                                                if (valueOrDefault<bool>(
-                                                  containerVarItem
-                                                          .tribeContentID ==
-                                                      null,
-                                                  false,
-                                                ))
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(5.0, 0.0,
-                                                                0.0, 0.0),
-                                                    child: Text(
-                                                      'DRAFT',
-                                                      textAlign:
-                                                          TextAlign.start,
-                                                      maxLines: 2,
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .titleSmall
-                                                              .override(
-                                                                fontFamily: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleSmallFamily,
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .error,
-                                                                fontSize: 14.0,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                useGoogleFonts: GoogleFonts
-                                                                        .asMap()
-                                                                    .containsKey(
-                                                                        FlutterFlowTheme.of(context)
-                                                                            .titleSmallFamily),
-                                                                lineHeight: 1.0,
-                                                              ),
-                                                    ),
-                                                  ),
-                                              ],
                                             ),
                                           ),
                                         ]

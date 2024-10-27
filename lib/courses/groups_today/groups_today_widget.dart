@@ -178,83 +178,13 @@ class _GroupsTodayWidgetState extends State<GroupsTodayWidget>
                       ),
                     ),
                     Flexible(
-                      child: InkWell(
-                        splashColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onLongPress: () async {
-                          logFirebaseEvent(
-                              'GROUPS_TODAY_Image_p1yxpd69_ON_LONG_PRES');
-                          logFirebaseEvent('Image_update_app_state');
-                          FFAppState().deleteUserID();
-                          FFAppState().userID = 0;
-
-                          FFAppState().deleteCurrentUserGroupList();
-                          FFAppState().currentUserGroupList = [];
-
-                          FFAppState().update(() {});
-                          logFirebaseEvent('Image_auth');
-                          GoRouter.of(context).prepareAuthEvent();
-                          await authManager.signOut();
-                          GoRouter.of(context).clearRedirectLocation();
-
-                          logFirebaseEvent('Image_navigate_to');
-
-                          context.pushNamedAuth('EntryPage', context.mounted);
-                        },
-                        child: Image.network(
-                          widget!.groupDoc!.featuredImg,
-                          width: 100.0,
-                          height: 50.0,
-                          fit: BoxFit.contain,
-                        ),
+                      child: Image.network(
+                        widget!.groupDoc!.featuredImg,
+                        width: 100.0,
+                        height: 50.0,
+                        fit: BoxFit.contain,
                       ),
                     ),
-                    if (responsiveVisibility(
-                      context: context,
-                      phone: false,
-                      tablet: false,
-                      tabletLandscape: false,
-                      desktop: false,
-                    ))
-                      InkWell(
-                        splashColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () async {
-                          logFirebaseEvent(
-                              'GROUPS_TODAY_PAGE_Text_xvn8f645_ON_TAP');
-                          logFirebaseEvent('Text_navigate_to');
-
-                          context.pushNamed(
-                            'EditGroupAdmin',
-                            queryParameters: {
-                              'groupRef': serializeParam(
-                                widget!.groupDoc?.reference,
-                                ParamType.DocumentReference,
-                              ),
-                            }.withoutNulls,
-                          );
-                        },
-                        child: Text(
-                          'EDIT GROUP',
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                fontFamily: FlutterFlowTheme.of(context)
-                                    .bodyMediumFamily,
-                                color:
-                                    FlutterFlowTheme.of(context).primaryBtnText,
-                                fontSize: 14.0,
-                                letterSpacing: 0.0,
-                                useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                    FlutterFlowTheme.of(context)
-                                        .bodyMediumFamily),
-                              ),
-                        ),
-                      ),
                     wrapWithModel(
                       model: _model.profileButtonModel,
                       updateCallback: () => safeSetState(() {}),

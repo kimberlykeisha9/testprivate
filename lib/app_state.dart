@@ -393,12 +393,6 @@ class FFAppState extends ChangeNotifier {
     _postPhoto = value;
   }
 
-  bool _complete = false;
-  bool get complete => _complete;
-  set complete(bool value) {
-    _complete = value;
-  }
-
   bool _processing = false;
   bool get processing => _processing;
   set processing(bool value) {
@@ -490,12 +484,6 @@ class FFAppState extends ChangeNotifier {
 
   void deleteCurrentGroup() {
     secureStorage.delete(key: 'ff_currentGroup');
-  }
-
-  DateTime? _lastCacheTime;
-  DateTime? get lastCacheTime => _lastCacheTime;
-  set lastCacheTime(DateTime? value) {
-    _lastCacheTime = value;
   }
 
   bool _isCacheOverride = true;
@@ -721,20 +709,35 @@ class FFAppState extends ChangeNotifier {
     secureStorage.delete(key: 'ff_notificationCount');
   }
 
-  final _userDocQueryManager = FutureRequestManager<UserRecord>();
-  Future<UserRecord> userDocQuery({
+  final _getGroupMembersCountManager = FutureRequestManager<int>();
+  Future<int> getGroupMembersCount({
     String? uniqueQueryKey,
     bool? overrideCache,
-    required Future<UserRecord> Function() requestFn,
+    required Future<int> Function() requestFn,
   }) =>
-      _userDocQueryManager.performRequest(
+      _getGroupMembersCountManager.performRequest(
         uniqueQueryKey: uniqueQueryKey,
         overrideCache: overrideCache,
         requestFn: requestFn,
       );
-  void clearUserDocQueryCache() => _userDocQueryManager.clear();
-  void clearUserDocQueryCacheKey(String? uniqueKey) =>
-      _userDocQueryManager.clearRequest(uniqueKey);
+  void clearGetGroupMembersCountCache() => _getGroupMembersCountManager.clear();
+  void clearGetGroupMembersCountCacheKey(String? uniqueKey) =>
+      _getGroupMembersCountManager.clearRequest(uniqueKey);
+
+  final _getAdminCountManager = FutureRequestManager<int>();
+  Future<int> getAdminCount({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<int> Function() requestFn,
+  }) =>
+      _getAdminCountManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearGetAdminCountCache() => _getAdminCountManager.clear();
+  void clearGetAdminCountCacheKey(String? uniqueKey) =>
+      _getAdminCountManager.clearRequest(uniqueKey);
 }
 
 void _safeInit(Function() initializeField) {

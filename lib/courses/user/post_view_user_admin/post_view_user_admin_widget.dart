@@ -1373,10 +1373,7 @@ class _PostViewUserAdminWidgetState extends State<PostViewUserAdminWidget> {
                                                                         _model
                                                                             .activeCollectionDoc!,
                                                                     completedCallback:
-                                                                        () async {
-                                                                      logFirebaseEvent(
-                                                                          'POST_VIEW_USER_ADMIN_Container_kbbg1w45_');
-                                                                    },
+                                                                        () async {},
                                                                   ),
                                                                 ),
                                                               );

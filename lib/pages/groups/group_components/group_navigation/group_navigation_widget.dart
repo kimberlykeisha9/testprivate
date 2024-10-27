@@ -623,11 +623,16 @@ class _GroupNavigationWidgetState extends State<GroupNavigationWidget> {
                   ),
                   showLoadingIndicator: false,
                 ),
-              if (((valueOrDefault(currentUserDocument?.userRole, '') ==
-                          'admin') ||
-                      (valueOrDefault(currentUserDocument?.userRole, '') ==
-                          'creator')) &&
-                  (widget!.groupDoc != null))
+              if ((((valueOrDefault(currentUserDocument?.userRole, '') ==
+                              'admin') ||
+                          (valueOrDefault(currentUserDocument?.userRole, '') ==
+                              'creator')) &&
+                      (widget!.groupDoc != null)) &&
+                  responsiveVisibility(
+                    context: context,
+                    phone: false,
+                    tablet: false,
+                  ))
                 AuthUserStreamWidget(
                   builder: (context) => FFButtonWidget(
                     onPressed: () async {

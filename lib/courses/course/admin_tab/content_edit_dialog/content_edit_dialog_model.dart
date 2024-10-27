@@ -37,7 +37,7 @@ class ContentEditDialogModel extends FlutterFlowModel<ContentEditDialogWidget> {
 
   bool isImageUploaded = false;
 
-  String selectedMediaType = 'Video';
+  String selectedMediaType = 'video';
 
   String? fileUploadUrl = '';
 

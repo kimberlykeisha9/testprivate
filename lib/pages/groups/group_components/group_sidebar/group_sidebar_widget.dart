@@ -283,36 +283,43 @@ class _GroupSidebarWidgetState extends State<GroupSidebarWidget> {
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
                                             FutureBuilder<int>(
-                                              future: queryUserRecordCount(
-                                                queryBuilder: (userRecord) =>
-                                                    userRecord.where(
-                                                  'TribeGroups',
-                                                  arrayContains:
-                                                      getTribeGroupsFirestoreData(
-                                                    TribeGroupsStruct(
-                                                      tribeGroupID: widget!
-                                                          .groupDoc
-                                                          ?.tribeGroupID,
-                                                      groupRef: widget!
-                                                          .groupDoc?.reference,
-                                                      role: 'member',
+                                              future: FFAppState()
+                                                  .getGroupMembersCount(
+                                                uniqueQueryKey:
+                                                    '${widget!.groupDoc?.tribeGroupID?.toString()}${dateTimeFormat("d-M-y", getCurrentTimestamp)}',
+                                                requestFn: () =>
+                                                    queryUserRecordCount(
+                                                  queryBuilder: (userRecord) =>
+                                                      userRecord.where(
+                                                    'TribeGroups',
+                                                    arrayContains:
+                                                        getTribeGroupsFirestoreData(
+                                                      TribeGroupsStruct(
+                                                        tribeGroupID: widget!
+                                                            .groupDoc
+                                                            ?.tribeGroupID,
+                                                        groupRef: widget!
+                                                            .groupDoc
+                                                            ?.reference,
+                                                        role: 'member',
+                                                      ),
+                                                      true,
                                                     ),
-                                                    true,
+                                                    isNull:
+                                                        (getTribeGroupsFirestoreData(
+                                                              TribeGroupsStruct(
+                                                                tribeGroupID: widget!
+                                                                    .groupDoc
+                                                                    ?.tribeGroupID,
+                                                                groupRef: widget!
+                                                                    .groupDoc
+                                                                    ?.reference,
+                                                                role: 'member',
+                                                              ),
+                                                              true,
+                                                            )) ==
+                                                            null,
                                                   ),
-                                                  isNull:
-                                                      (getTribeGroupsFirestoreData(
-                                                            TribeGroupsStruct(
-                                                              tribeGroupID: widget!
-                                                                  .groupDoc
-                                                                  ?.tribeGroupID,
-                                                              groupRef: widget!
-                                                                  .groupDoc
-                                                                  ?.reference,
-                                                              role: 'member',
-                                                            ),
-                                                            true,
-                                                          )) ==
-                                                          null,
                                                 ),
                                               ),
                                               builder: (context, snapshot) {
@@ -479,35 +486,41 @@ class _GroupSidebarWidgetState extends State<GroupSidebarWidget> {
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           FutureBuilder<int>(
-                                            future: queryUserRecordCount(
-                                              queryBuilder: (userRecord) =>
-                                                  userRecord.where(
-                                                'TribeGroups',
-                                                arrayContains:
-                                                    getTribeGroupsFirestoreData(
-                                                  TribeGroupsStruct(
-                                                    tribeGroupID: widget!
-                                                        .groupDoc?.tribeGroupID,
-                                                    groupRef: widget!
-                                                        .groupDoc?.reference,
-                                                    role: 'admin',
+                                            future: FFAppState().getAdminCount(
+                                              uniqueQueryKey:
+                                                  '${widget!.groupDoc?.tribeGroupID?.toString()}${dateTimeFormat("d-M-y", getCurrentTimestamp)}',
+                                              requestFn: () =>
+                                                  queryUserRecordCount(
+                                                queryBuilder: (userRecord) =>
+                                                    userRecord.where(
+                                                  'TribeGroups',
+                                                  arrayContains:
+                                                      getTribeGroupsFirestoreData(
+                                                    TribeGroupsStruct(
+                                                      tribeGroupID: widget!
+                                                          .groupDoc
+                                                          ?.tribeGroupID,
+                                                      groupRef: widget!
+                                                          .groupDoc?.reference,
+                                                      role: 'admin',
+                                                    ),
+                                                    true,
                                                   ),
-                                                  true,
+                                                  isNull:
+                                                      (getTribeGroupsFirestoreData(
+                                                            TribeGroupsStruct(
+                                                              tribeGroupID: widget!
+                                                                  .groupDoc
+                                                                  ?.tribeGroupID,
+                                                              groupRef: widget!
+                                                                  .groupDoc
+                                                                  ?.reference,
+                                                              role: 'admin',
+                                                            ),
+                                                            true,
+                                                          )) ==
+                                                          null,
                                                 ),
-                                                isNull:
-                                                    (getTribeGroupsFirestoreData(
-                                                          TribeGroupsStruct(
-                                                            tribeGroupID: widget!
-                                                                .groupDoc
-                                                                ?.tribeGroupID,
-                                                            groupRef: widget!
-                                                                .groupDoc
-                                                                ?.reference,
-                                                            role: 'admin',
-                                                          ),
-                                                          true,
-                                                        )) ==
-                                                        null,
                                               ),
                                             ),
                                             builder: (context, snapshot) {

@@ -1090,186 +1090,218 @@ class _CreatePostPopupWidgetState extends State<CreatePostPopupWidget> {
                             'admin')
                           AuthUserStreamWidget(
                             builder: (context) => FFButtonWidget(
-                              onPressed: () async {
-                                logFirebaseEvent(
-                                    'CREATE_POST_POPUP_goLiveButton_ON_TAP');
-                                logFirebaseEvent(
-                                    'goLiveButton_update_app_state');
-                                FFAppState().processing = false;
-                                safeSetState(() {});
-                                if (_model.enablePushNotificationValue!) {
-                                  logFirebaseEvent(
-                                      'goLiveButton_validate_form');
-                                  if (_model.formKey.currentState == null ||
-                                      !_model.formKey.currentState!
-                                          .validate()) {
-                                    return;
-                                  }
-                                  logFirebaseEvent('goLiveButton_action_block');
-                                  _model.newBroadcast =
-                                      await action_blocks.createLiveStream(
-                                    context,
-                                    name: _model.textController1.text,
-                                    description: ' ',
-                                    groupId: widget!.groupId,
-                                    category: _model.choiceChipsValues,
-                                  );
-                                  logFirebaseEvent(
-                                      'goLiveButton_firestore_query');
-                                  _model.queryGroupUsersGoLive =
-                                      await queryUserRecordOnce(
-                                    queryBuilder: (userRecord) =>
-                                        userRecord.where(
-                                      'TribeGroups',
-                                      arrayContains:
-                                          getTribeGroupsFirestoreData(
-                                        TribeGroupsStruct(
-                                          tribeGroupID:
-                                              widget!.groupDoc?.tribeGroupID,
-                                          groupRef: widget!.groupDoc?.reference,
-                                          role: 'member',
-                                        ),
-                                        true,
-                                      ),
-                                    ),
-                                  );
-                                  logFirebaseEvent(
-                                      'goLiveButton_trigger_push_notification');
-                                  triggerPushNotification(
-                                    notificationTitle: _model
-                                        .notificationTitleTextFieldTextController
-                                        .text,
-                                    notificationText: _model
-                                        .notificationMessageTextFieldTextController
-                                        .text,
-                                    notificationSound: 'default',
-                                    userRefs: _model.queryGroupUsersGoLive!
-                                        .map((e) => e.reference)
-                                        .toList(),
-                                    initialPageName: 'StartBroadcast_FB',
-                                    parameterData: {
-                                      'title': _model.textController1.text,
-                                      'description':
-                                          FFAppState().userMentionTextInputText,
-                                      'sendNotification': true,
-                                      'groupDoc': widget!.groupDoc,
-                                      'notificationTitle': _model
-                                          .notificationTitleTextFieldTextController
-                                          .text,
-                                      'notificationMessage': _model
-                                          .notificationMessageTextFieldTextController
-                                          .text,
-                                      'broadcast': _model.newBroadcast,
+                              onPressed: _model.isLoading
+                                  ? null
+                                  : () async {
+                                      logFirebaseEvent(
+                                          'CREATE_POST_POPUP_goLiveButton_ON_TAP');
+                                      logFirebaseEvent(
+                                          'goLiveButton_update_app_state');
+                                      FFAppState().processing = false;
+                                      safeSetState(() {});
+                                      logFirebaseEvent(
+                                          'goLiveButton_update_component_state');
+                                      _model.isLoading = true;
+                                      safeSetState(() {});
+                                      if (_model.enablePushNotificationValue!) {
+                                        logFirebaseEvent(
+                                            'goLiveButton_validate_form');
+                                        if (_model.formKey.currentState ==
+                                                null ||
+                                            !_model.formKey.currentState!
+                                                .validate()) {
+                                          return;
+                                        }
+                                        logFirebaseEvent(
+                                            'goLiveButton_action_block');
+                                        _model.newBroadcast =
+                                            await action_blocks
+                                                .createLiveStream(
+                                          context,
+                                          name: _model.textController1.text,
+                                          description: ' ',
+                                          groupId: widget!.groupId,
+                                          category: _model.choiceChipsValues,
+                                        );
+                                        logFirebaseEvent(
+                                            'goLiveButton_firestore_query');
+                                        _model.queryGroupUsersGoLive =
+                                            await queryUserRecordOnce(
+                                          queryBuilder: (userRecord) =>
+                                              userRecord.where(
+                                            'TribeGroups',
+                                            arrayContains:
+                                                getTribeGroupsFirestoreData(
+                                              TribeGroupsStruct(
+                                                tribeGroupID: widget!
+                                                    .groupDoc?.tribeGroupID,
+                                                groupRef:
+                                                    widget!.groupDoc?.reference,
+                                                role: 'member',
+                                              ),
+                                              true,
+                                            ),
+                                          ),
+                                        );
+                                        logFirebaseEvent(
+                                            'goLiveButton_trigger_push_notification');
+                                        triggerPushNotification(
+                                          notificationTitle: _model
+                                              .notificationTitleTextFieldTextController
+                                              .text,
+                                          notificationText: _model
+                                              .notificationMessageTextFieldTextController
+                                              .text,
+                                          notificationSound: 'default',
+                                          userRefs: _model
+                                              .queryGroupUsersGoLive!
+                                              .map((e) => e.reference)
+                                              .toList(),
+                                          initialPageName: 'StartBroadcast_FB',
+                                          parameterData: {
+                                            'title':
+                                                _model.textController1.text,
+                                            'description': FFAppState()
+                                                .userMentionTextInputText,
+                                            'sendNotification': true,
+                                            'groupDoc': widget!.groupDoc,
+                                            'notificationTitle': _model
+                                                .notificationTitleTextFieldTextController
+                                                .text,
+                                            'notificationMessage': _model
+                                                .notificationMessageTextFieldTextController
+                                                .text,
+                                            'broadcast': _model.newBroadcast,
+                                          },
+                                        );
+                                        logFirebaseEvent(
+                                            'goLiveButton_update_app_state');
+                                        FFAppState()
+                                                .userMentionTextInputClearState =
+                                            true;
+                                        safeSetState(() {});
+                                        logFirebaseEvent(
+                                            'goLiveButton_navigate_to');
+
+                                        context.pushNamed(
+                                          'StartBroadcast_FB',
+                                          queryParameters: {
+                                            'description': serializeParam(
+                                              FFAppState()
+                                                  .userMentionTextInputText,
+                                              ParamType.String,
+                                            ),
+                                            'title': serializeParam(
+                                              _model.textController1.text,
+                                              ParamType.String,
+                                            ),
+                                            'sendNotification': serializeParam(
+                                              true,
+                                              ParamType.bool,
+                                            ),
+                                            'notificationTitle': serializeParam(
+                                              _model
+                                                  .notificationTitleTextFieldTextController
+                                                  .text,
+                                              ParamType.String,
+                                            ),
+                                            'notificationMessage':
+                                                serializeParam(
+                                              _model
+                                                  .notificationMessageTextFieldTextController
+                                                  .text,
+                                              ParamType.String,
+                                            ),
+                                            'groupDoc': serializeParam(
+                                              widget!.groupDoc,
+                                              ParamType.Document,
+                                            ),
+                                            'category': serializeParam(
+                                              _model.choiceChipsValues,
+                                              ParamType.String,
+                                              isList: true,
+                                            ),
+                                            'broadcast': serializeParam(
+                                              _model.newBroadcast,
+                                              ParamType.DocumentReference,
+                                            ),
+                                          }.withoutNulls,
+                                          extra: <String, dynamic>{
+                                            'groupDoc': widget!.groupDoc,
+                                          },
+                                        );
+                                      } else {
+                                        logFirebaseEvent(
+                                            'goLiveButton_action_block');
+                                        _model.newBroadcastNoNotification =
+                                            await action_blocks
+                                                .createLiveStream(
+                                          context,
+                                          name: _model.textController1.text,
+                                          description: ' ',
+                                          groupId: widget!.groupId,
+                                          category: _model.choiceChipsValues,
+                                        );
+                                        logFirebaseEvent(
+                                            'goLiveButton_navigate_to');
+
+                                        context.pushNamed(
+                                          'StartBroadcast_FB',
+                                          queryParameters: {
+                                            'description': serializeParam(
+                                              FFAppState()
+                                                  .userMentionTextInputText,
+                                              ParamType.String,
+                                            ),
+                                            'title': serializeParam(
+                                              _model.textController1.text,
+                                              ParamType.String,
+                                            ),
+                                            'sendNotification': serializeParam(
+                                              false,
+                                              ParamType.bool,
+                                            ),
+                                            'groupDoc': serializeParam(
+                                              widget!.groupDoc,
+                                              ParamType.Document,
+                                            ),
+                                            'category': serializeParam(
+                                              _model.choiceChipsValues,
+                                              ParamType.String,
+                                              isList: true,
+                                            ),
+                                            'broadcast': serializeParam(
+                                              _model.newBroadcastNoNotification,
+                                              ParamType.DocumentReference,
+                                            ),
+                                          }.withoutNulls,
+                                          extra: <String, dynamic>{
+                                            'groupDoc': widget!.groupDoc,
+                                          },
+                                        );
+                                      }
+
+                                      logFirebaseEvent(
+                                          'goLiveButton_update_component_state');
+                                      _model.isLoading = false;
+                                      safeSetState(() {});
+                                      logFirebaseEvent(
+                                          'goLiveButton_bottom_sheet');
+                                      Navigator.pop(context);
+
+                                      safeSetState(() {});
                                     },
-                                  );
-                                  logFirebaseEvent(
-                                      'goLiveButton_update_app_state');
-                                  FFAppState().userMentionTextInputClearState =
-                                      true;
-                                  safeSetState(() {});
-                                  logFirebaseEvent('goLiveButton_navigate_to');
-
-                                  context.pushNamed(
-                                    'StartBroadcast_FB',
-                                    queryParameters: {
-                                      'description': serializeParam(
-                                        FFAppState().userMentionTextInputText,
-                                        ParamType.String,
-                                      ),
-                                      'title': serializeParam(
-                                        _model.textController1.text,
-                                        ParamType.String,
-                                      ),
-                                      'sendNotification': serializeParam(
-                                        true,
-                                        ParamType.bool,
-                                      ),
-                                      'notificationTitle': serializeParam(
-                                        _model
-                                            .notificationTitleTextFieldTextController
-                                            .text,
-                                        ParamType.String,
-                                      ),
-                                      'notificationMessage': serializeParam(
-                                        _model
-                                            .notificationMessageTextFieldTextController
-                                            .text,
-                                        ParamType.String,
-                                      ),
-                                      'groupDoc': serializeParam(
-                                        widget!.groupDoc,
-                                        ParamType.Document,
-                                      ),
-                                      'category': serializeParam(
-                                        _model.choiceChipsValues,
-                                        ParamType.String,
-                                        isList: true,
-                                      ),
-                                      'broadcast': serializeParam(
-                                        _model.newBroadcast,
-                                        ParamType.DocumentReference,
-                                      ),
-                                    }.withoutNulls,
-                                    extra: <String, dynamic>{
-                                      'groupDoc': widget!.groupDoc,
-                                    },
-                                  );
-                                } else {
-                                  logFirebaseEvent('goLiveButton_action_block');
-                                  _model.newBroadcastNoNotification =
-                                      await action_blocks.createLiveStream(
-                                    context,
-                                    name: _model.textController1.text,
-                                    description: ' ',
-                                    groupId: widget!.groupId,
-                                    category: _model.choiceChipsValues,
-                                  );
-                                  logFirebaseEvent('goLiveButton_navigate_to');
-
-                                  context.pushNamed(
-                                    'StartBroadcast_FB',
-                                    queryParameters: {
-                                      'description': serializeParam(
-                                        FFAppState().userMentionTextInputText,
-                                        ParamType.String,
-                                      ),
-                                      'title': serializeParam(
-                                        _model.textController1.text,
-                                        ParamType.String,
-                                      ),
-                                      'sendNotification': serializeParam(
-                                        false,
-                                        ParamType.bool,
-                                      ),
-                                      'groupDoc': serializeParam(
-                                        widget!.groupDoc,
-                                        ParamType.Document,
-                                      ),
-                                      'category': serializeParam(
-                                        _model.choiceChipsValues,
-                                        ParamType.String,
-                                        isList: true,
-                                      ),
-                                      'broadcast': serializeParam(
-                                        _model.newBroadcastNoNotification,
-                                        ParamType.DocumentReference,
-                                      ),
-                                    }.withoutNulls,
-                                    extra: <String, dynamic>{
-                                      'groupDoc': widget!.groupDoc,
-                                    },
-                                  );
-                                }
-
-                                logFirebaseEvent('goLiveButton_bottom_sheet');
-                                Navigator.pop(context);
-
-                                safeSetState(() {});
-                              },
                               text: valueOrDefault<String>(
-                                _model.enablePushNotificationValue!
-                                    ? 'Go Live & Notify'
-                                    : 'Go Live',
+                                () {
+                                  if (_model.isLoading) {
+                                    return 'Processing';
+                                  } else if (_model
+                                      .enablePushNotificationValue!) {
+                                    return 'Go Live & Notify';
+                                  } else {
+                                    return 'Go Live';
+                                  }
+                                }(),
                                 'Go Live',
                               ),
                               icon: Icon(

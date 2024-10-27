@@ -693,8 +693,8 @@ class _ReplyToCommentWidgetState extends State<ReplyToCommentWidget> {
                                         size: 20.0,
                                       ),
                                       options: FFButtonOptions(
-                                        width: 40.0,
-                                        height: 40.0,
+                                        width: 48.0,
+                                        height: 48.0,
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 0.0),
                                         iconPadding:
@@ -714,7 +714,7 @@ class _ReplyToCommentWidgetState extends State<ReplyToCommentWidget> {
                                                   GoogleFonts.asMap()
                                                       .containsKey('Outfit'),
                                             ),
-                                        elevation: 2.0,
+                                        elevation: 0.0,
                                         borderSide: BorderSide(
                                           color: Colors.transparent,
                                           width: 1.0,

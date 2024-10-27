@@ -668,7 +668,7 @@ class _ContentEditDialogWidgetState extends State<ContentEditDialogWidget>
                                             logFirebaseEvent(
                                                 'Uploader_update_component_state');
                                             _model.fileUploadUrl = link;
-                                            _model.selectedMediaType = 'Video';
+                                            _model.selectedMediaType = 'video';
                                             safeSetState(() {});
                                             if (widget!.contentDoc!
                                                     .hasTribeContentID() &&
@@ -732,7 +732,7 @@ class _ContentEditDialogWidgetState extends State<ContentEditDialogWidget>
                                                   'Uploader_update_component_state');
                                               _model.fileUploadUrl = '';
                                               _model.selectedMediaType =
-                                                  'Video';
+                                                  'video';
                                               safeSetState(() {});
                                               if (widget!.contentDoc!
                                                       .hasTribeContentID() &&
@@ -2378,7 +2378,7 @@ class _ContentEditDialogWidgetState extends State<ContentEditDialogWidget>
                                                 borderColor: Colors.transparent,
                                                 borderRadius: 0.0,
                                                 borderWidth: 1.0,
-                                                buttonSize: 32.0,
+                                                buttonSize: 48.0,
                                                 icon: FaIcon(
                                                   FontAwesomeIcons.pen,
                                                   color: Color(0xFF757B83),
@@ -2428,7 +2428,7 @@ class _ContentEditDialogWidgetState extends State<ContentEditDialogWidget>
                                                 borderColor: Colors.transparent,
                                                 borderRadius: 0.0,
                                                 borderWidth: 1.0,
-                                                buttonSize: 32.0,
+                                                buttonSize: 48.0,
                                                 icon: FaIcon(
                                                   FontAwesomeIcons.trashAlt,
                                                   color: Color(0xFF757B83),
@@ -2893,7 +2893,7 @@ class _ContentEditDialogWidgetState extends State<ContentEditDialogWidget>
 
                           logFirebaseEvent('saveButton_update_component_state');
                           _model.isImageUploaded = false;
-                          _model.selectedMediaType = 'Video';
+                          _model.selectedMediaType = 'video';
                           _model.fileUploadUrl = '';
                           _model.richTextEditorOutput = '';
                           safeSetState(() {});

@@ -1,4 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/backend/schema/enums/enums.dart';
 import '/components/empty_list/empty_list_widget.dart';
@@ -10,7 +11,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/actions/actions.dart' as action_blocks;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -75,8 +75,6 @@ class _ContentDisplayDialogWidgetState extends State<ContentDisplayDialogWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -218,8 +216,18 @@ class _ContentDisplayDialogWidgetState extends State<ContentDisplayDialogWidget>
                         onTap: () async {
                           logFirebaseEvent(
                               'CONTENT_DISPLAY_DIALOG_featuredImage_ON_');
-                          logFirebaseEvent('featuredImage_launch_u_r_l');
-                          await launchURL(widget!.contentDoc!.ctaLink);
+                          if (functions
+                                  .isLink(widget!.contentDoc?.contentType) ||
+                              functions
+                                  .isZoom(widget!.contentDoc?.contentType)) {
+                            // OpenExternal
+                            logFirebaseEvent('featuredImage_OpenExternal');
+                            await launchURL(widget!.contentUrl!);
+                          } else {
+                            logFirebaseEvent('featuredImage_launch_u_r_l');
+                            await launchURL(
+                                '${getRemoteConfigString('AppImgBaseUrl')}${functions.imgPathToString(widget!.contentDoc!.featuredImage)}');
+                          }
                         },
                         child: Image.network(
                           valueOrDefault<String>(
@@ -404,36 +412,43 @@ class _ContentDisplayDialogWidgetState extends State<ContentDisplayDialogWidget>
                           onPressed: () async {
                             logFirebaseEvent(
                                 'CONTENT_DISPLAY_DIALOG_Completed_ON_TAP');
-                            // Completed in user doc
-                            logFirebaseEvent('Completed_Completedinuserdoc');
-
-                            await currentUserReference!.update({
-                              ...mapToFirestore(
-                                {
-                                  'contentCompletedIDs': FieldValue.arrayUnion(
-                                      [widget!.contentDoc?.tribeContentID]),
-                                },
-                              ),
-                            });
-                            // Completed in content doc
-                            logFirebaseEvent('Completed_Completedincontentdoc');
-
-                            await widget!.contentDoc!.reference.update({
-                              ...mapToFirestore(
-                                {
-                                  'completedBy': FieldValue.arrayUnion(
-                                      [currentUserReference]),
-                                },
-                              ),
-                            });
-                            logFirebaseEvent('Completed_update_app_state');
-
-                            _model.updatePage(() {});
-                            logFirebaseEvent('Completed_action_block');
-                            await action_blocks.displaySnackbar(
-                              context,
-                              message: 'Lesson completed!',
+                            logFirebaseEvent('Completed_backend_call');
+                            _model.markCompleted =
+                                await CompleteGroupContentCall.call(
+                              token: valueOrDefault(
+                                  currentUserDocument?.tribeToken, ''),
+                              baseURL: getRemoteConfigString('AppBaseApiUrl'),
+                              postId: widget!.contentDoc?.tribeContentID,
                             );
+
+                            if ((_model.markCompleted?.succeeded ?? true)) {
+                              logFirebaseEvent('Completed_action_block');
+                              await action_blocks.displaySnackbar(
+                                context,
+                                message: 'Lesson completed!',
+                              );
+                            } else {
+                              logFirebaseEvent('Completed_show_snack_bar');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Something went wrong',
+                                    style: GoogleFonts.getFont(
+                                      'Open Sans',
+                                      color:
+                                          FlutterFlowTheme.of(context).black600,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).alternate,
+                                ),
+                              );
+                            }
+
+                            safeSetState(() {});
                           },
                           text: 'Mark Complete',
                           icon: Icon(
@@ -479,37 +494,43 @@ class _ContentDisplayDialogWidgetState extends State<ContentDisplayDialogWidget>
                           onPressed: () async {
                             logFirebaseEvent(
                                 'CONTENT_DISPLAY_DIALOG_Incomplete_ON_TAP');
-                            // Completed in user doc
-                            logFirebaseEvent('Incomplete_Completedinuserdoc');
-
-                            await currentUserReference!.update({
-                              ...mapToFirestore(
-                                {
-                                  'contentCompletedIDs': FieldValue.arrayRemove(
-                                      [widget!.contentDoc?.tribeContentID]),
-                                },
-                              ),
-                            });
-                            // Completed in content doc
-                            logFirebaseEvent(
-                                'Incomplete_Completedincontentdoc');
-
-                            await widget!.contentDoc!.reference.update({
-                              ...mapToFirestore(
-                                {
-                                  'completedBy': FieldValue.arrayRemove(
-                                      [currentUserReference]),
-                                },
-                              ),
-                            });
-                            logFirebaseEvent('Incomplete_update_app_state');
-
-                            _model.updatePage(() {});
-                            logFirebaseEvent('Incomplete_action_block');
-                            await action_blocks.displaySnackbar(
-                              context,
-                              message: 'Lesson unchecked from completed.',
+                            logFirebaseEvent('Incomplete_backend_call');
+                            _model.markIncompleted =
+                                await CompleteGroupContentCall.call(
+                              token: valueOrDefault(
+                                  currentUserDocument?.tribeToken, ''),
+                              baseURL: getRemoteConfigString('AppBaseApiUrl'),
+                              postId: widget!.contentDoc?.tribeContentID,
                             );
+
+                            if ((_model.markIncompleted?.succeeded ?? true)) {
+                              logFirebaseEvent('Incomplete_action_block');
+                              await action_blocks.displaySnackbar(
+                                context,
+                                message: 'Lesson unchecked from completed.',
+                              );
+                            } else {
+                              logFirebaseEvent('Incomplete_show_snack_bar');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Something went wrong',
+                                    style: GoogleFonts.getFont(
+                                      'Open Sans',
+                                      color:
+                                          FlutterFlowTheme.of(context).black600,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).alternate,
+                                ),
+                              );
+                            }
+
+                            safeSetState(() {});
                           },
                           text: 'Mark Incomplete',
                           icon: Icon(
@@ -551,261 +572,284 @@ class _ContentDisplayDialogWidgetState extends State<ContentDisplayDialogWidget>
               ].divide(SizedBox(width: 16.0)),
             ),
           ),
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
-            child: Container(
-              height: 300.0,
-              decoration: BoxDecoration(),
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment(0.0, 0),
-                      child: TabBar(
-                        labelColor: FlutterFlowTheme.of(context).primaryText,
-                        unselectedLabelColor:
-                            FlutterFlowTheme.of(context).primaryText,
-                        labelStyle:
-                            FlutterFlowTheme.of(context).titleMedium.override(
-                                  fontFamily: FlutterFlowTheme.of(context)
-                                      .titleMediumFamily,
-                                  fontSize: 18.0,
-                                  letterSpacing: 0.0,
-                                  useGoogleFonts: GoogleFonts.asMap()
-                                      .containsKey(FlutterFlowTheme.of(context)
-                                          .titleMediumFamily),
-                                ),
-                        unselectedLabelStyle: TextStyle(),
-                        indicatorColor: FlutterFlowTheme.of(context).primary,
-                        indicatorWeight: 2.0,
-                        padding: EdgeInsets.all(4.0),
-                        tabs: [
-                          Tab(
-                            text: 'Description',
-                          ),
-                          Tab(
-                            text: 'Attachments',
-                          ),
-                        ],
-                        controller: _model.tabBarController,
-                        onTap: (i) async {
-                          [() async {}, () async {}][i]();
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: TabBarView(
-                        controller: _model.tabBarController,
-                        children: [
-                          custom_widgets.ContentDescriptionHTMLExpanded(
-                            width: MediaQuery.sizeOf(context).width * 1.0,
-                            height: 300.0,
-                            htmlContent: valueOrDefault<String>(
-                              widget!.contentDoc?.descriptionHtml,
-                              '<p></p>',
+          if (responsiveVisibility(
+            context: context,
+            phone: false,
+            tablet: false,
+            tabletLandscape: false,
+            desktop: false,
+          ))
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
+              child: Container(
+                height: 300.0,
+                decoration: BoxDecoration(),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment(0.0, 0),
+                        child: TabBar(
+                          labelColor: FlutterFlowTheme.of(context).primaryText,
+                          unselectedLabelColor:
+                              FlutterFlowTheme.of(context).primaryText,
+                          labelStyle: FlutterFlowTheme.of(context)
+                              .titleMedium
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .titleMediumFamily,
+                                fontSize: 18.0,
+                                letterSpacing: 0.0,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    FlutterFlowTheme.of(context)
+                                        .titleMediumFamily),
+                              ),
+                          unselectedLabelStyle: TextStyle(),
+                          indicatorColor: FlutterFlowTheme.of(context).primary,
+                          indicatorWeight: 2.0,
+                          padding: EdgeInsets.all(4.0),
+                          tabs: [
+                            Tab(
+                              text: 'Description',
                             ),
-                            isExpanded: true,
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 12.0, 0.0, 0.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Expanded(
-                                  child: StreamBuilder<List<AttachmentsRecord>>(
-                                    stream: queryAttachmentsRecord(
-                                      parent: widget!.contentDoc?.reference,
-                                    ),
-                                    builder: (context, snapshot) {
-                                      // Customize what your widget looks like when it's loading.
-                                      if (!snapshot.hasData) {
-                                        return Center(
-                                          child: SizedBox(
-                                            width: 40.0,
-                                            height: 40.0,
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                FlutterFlowTheme.of(context)
-                                                    .appBG,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                      List<AttachmentsRecord>
-                                          listViewAttachmentsRecordList =
-                                          snapshot.data!;
-                                      if (listViewAttachmentsRecordList
-                                          .isEmpty) {
-                                        return Center(
-                                          child: EmptyListWidget(),
-                                        );
-                                      }
-
-                                      return ListView.separated(
-                                        padding: EdgeInsets.zero,
-                                        scrollDirection: Axis.vertical,
-                                        itemCount: listViewAttachmentsRecordList
-                                            .length,
-                                        separatorBuilder: (_, __) =>
-                                            SizedBox(height: 8.0),
-                                        itemBuilder: (context, listViewIndex) {
-                                          final listViewAttachmentsRecord =
-                                              listViewAttachmentsRecordList[
-                                                  listViewIndex];
-                                          return InkWell(
-                                            splashColor: Colors.transparent,
-                                            focusColor: Colors.transparent,
-                                            hoverColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            onTap: () async {
-                                              logFirebaseEvent(
-                                                  'CONTENT_DISPLAY_DIALOG_attachmentContain');
-                                              logFirebaseEvent(
-                                                  'attachmentContainer_launch_u_r_l');
-                                              await launchURL(
-                                                  listViewAttachmentsRecord
-                                                      .url);
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryBackground,
-                                                borderRadius:
-                                                    BorderRadius.circular(12.0),
-                                                border: Border.all(
-                                                  color: Color(0xFFEAECF0),
-                                                ),
-                                              ),
-                                              child: Padding(
-                                                padding: EdgeInsets.all(12.0),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Builder(
-                                                      builder: (context) {
-                                                        if (functions
-                                                                .returnFileType(
-                                                                    listViewAttachmentsRecord
-                                                                        .url) ==
-                                                            DocumentType.link) {
-                                                          return Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        4.0,
-                                                                        0.0,
-                                                                        0.0,
-                                                                        0.0),
-                                                            child: FaIcon(
-                                                              FontAwesomeIcons
-                                                                  .link,
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryText,
-                                                              size: 18.0,
-                                                            ),
-                                                          );
-                                                        } else if (functions
-                                                                .returnFileType(
-                                                                    listViewAttachmentsRecord
-                                                                        .url) ==
-                                                            DocumentType
-                                                                .media) {
-                                                          return Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        4.0,
-                                                                        0.0,
-                                                                        0.0,
-                                                                        0.0),
-                                                            child: FaIcon(
-                                                              FontAwesomeIcons
-                                                                  .image,
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryText,
-                                                              size: 18.0,
-                                                            ),
-                                                          );
-                                                        } else {
-                                                          return Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        4.0,
-                                                                        0.0,
-                                                                        0.0,
-                                                                        0.0),
-                                                            child: FaIcon(
-                                                              FontAwesomeIcons
-                                                                  .file,
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryText,
-                                                              size: 18.0,
-                                                            ),
-                                                          );
-                                                        }
-                                                      },
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        listViewAttachmentsRecord
-                                                            .name,
-                                                        textAlign:
-                                                            TextAlign.start,
-                                                        maxLines: 1,
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .labelLarge
-                                                                .override(
-                                                                  fontFamily: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelLargeFamily,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  useGoogleFonts: GoogleFonts
-                                                                          .asMap()
-                                                                      .containsKey(
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .labelLargeFamily),
-                                                                ),
-                                                      ),
-                                                    ),
-                                                  ].divide(
-                                                      SizedBox(width: 12.0)),
+                            Tab(
+                              text: 'Attachments',
+                            ),
+                          ],
+                          controller: _model.tabBarController,
+                          onTap: (i) async {
+                            [() async {}, () async {}][i]();
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          controller: _model.tabBarController,
+                          children: [
+                            custom_widgets.ContentDescriptionHTMLExpanded(
+                              width: MediaQuery.sizeOf(context).width * 1.0,
+                              height: 300.0,
+                              htmlContent: valueOrDefault<String>(
+                                widget!.contentDoc?.descriptionHtml,
+                                '<p></p>',
+                              ),
+                              isExpanded: true,
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 12.0, 0.0, 0.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Expanded(
+                                    child:
+                                        StreamBuilder<List<AttachmentsRecord>>(
+                                      stream: queryAttachmentsRecord(
+                                        parent: widget!.contentDoc?.reference,
+                                      ),
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: SizedBox(
+                                              width: 40.0,
+                                              height: 40.0,
+                                              child: CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(
+                                                  FlutterFlowTheme.of(context)
+                                                      .appBG,
                                                 ),
                                               ),
                                             ),
                                           );
-                                        },
-                                      );
-                                    },
+                                        }
+                                        List<AttachmentsRecord>
+                                            listViewAttachmentsRecordList =
+                                            snapshot.data!;
+                                        if (listViewAttachmentsRecordList
+                                            .isEmpty) {
+                                          return Center(
+                                            child: EmptyListWidget(),
+                                          );
+                                        }
+
+                                        return ListView.separated(
+                                          padding: EdgeInsets.zero,
+                                          primary: false,
+                                          scrollDirection: Axis.vertical,
+                                          itemCount:
+                                              listViewAttachmentsRecordList
+                                                  .length,
+                                          separatorBuilder: (_, __) =>
+                                              SizedBox(height: 8.0),
+                                          itemBuilder:
+                                              (context, listViewIndex) {
+                                            final listViewAttachmentsRecord =
+                                                listViewAttachmentsRecordList[
+                                                    listViewIndex];
+                                            return InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                logFirebaseEvent(
+                                                    'CONTENT_DISPLAY_DIALOG_attachmentContain');
+                                                logFirebaseEvent(
+                                                    'attachmentContainer_launch_u_r_l');
+                                                await launchURL(
+                                                    listViewAttachmentsRecord
+                                                        .url);
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.0),
+                                                  border: Border.all(
+                                                    color: Color(0xFFEAECF0),
+                                                  ),
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(12.0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Builder(
+                                                        builder: (context) {
+                                                          if (functions.returnFileType(
+                                                                  listViewAttachmentsRecord
+                                                                      .url) ==
+                                                              DocumentType
+                                                                  .link) {
+                                                            return Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          4.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: FaIcon(
+                                                                FontAwesomeIcons
+                                                                    .link,
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                size: 18.0,
+                                                              ),
+                                                            );
+                                                          } else if (functions
+                                                                  .returnFileType(
+                                                                      listViewAttachmentsRecord
+                                                                          .url) ==
+                                                              DocumentType
+                                                                  .media) {
+                                                            return Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          4.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: FaIcon(
+                                                                FontAwesomeIcons
+                                                                    .image,
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                size: 18.0,
+                                                              ),
+                                                            );
+                                                          } else {
+                                                            return Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          4.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: FaIcon(
+                                                                FontAwesomeIcons
+                                                                    .file,
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                size: 18.0,
+                                                              ),
+                                                            );
+                                                          }
+                                                        },
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          listViewAttachmentsRecord
+                                                              .name,
+                                                          textAlign:
+                                                              TextAlign.start,
+                                                          maxLines: 1,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .labelLarge
+                                                              .override(
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelLargeFamily,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .labelLargeFamily),
+                                                              ),
+                                                        ),
+                                                      ),
+                                                    ].divide(
+                                                        SizedBox(width: 12.0)),
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
+          custom_widgets.ContentDescriptionHTMLExpanded(
+            width: MediaQuery.sizeOf(context).width * 1.0,
+            height: 300.0,
+            htmlContent: valueOrDefault<String>(
+              widget!.contentDoc?.descriptionHtml,
+              '<p></p>',
+            ),
+            isExpanded: true,
           ),
         ].divide(SizedBox(height: 8.0)),
       ),

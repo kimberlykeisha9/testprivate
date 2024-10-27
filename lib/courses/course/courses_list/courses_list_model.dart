@@ -16,6 +16,8 @@ import '/pages/groups/group_components/group_navigation/group_navigation_widget.
 import 'dart:math';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/flutter_flow/request_manager.dart';
+
 import 'courses_list_widget.dart' show CoursesListWidget;
 import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -43,6 +45,12 @@ class CoursesListModel extends FlutterFlowModel<CoursesListWidget> {
   late TopWebNavModel topWebNavModel;
   // Model for GroupNavigation component.
   late GroupNavigationModel groupNavigationModel;
+  // State field(s) for mobileFilterChoiceChips widget.
+  FormFieldController<List<String>>? mobileFilterChoiceChipsValueController;
+  String? get mobileFilterChoiceChipsValue =>
+      mobileFilterChoiceChipsValueController?.value?.firstOrNull;
+  set mobileFilterChoiceChipsValue(String? val) =>
+      mobileFilterChoiceChipsValueController?.value = val != null ? [val] : [];
   // State field(s) for desktopFilterChoiceChips widget.
   FormFieldController<List<String>>? desktopFilterChoiceChipsValueController;
   String? get desktopFilterChoiceChipsValue =>
@@ -57,14 +65,25 @@ class CoursesListModel extends FlutterFlowModel<CoursesListWidget> {
   List<TribeCourseRecord> simpleSearchResults = [];
   // Stores action output result for [Backend Call - Create Document] action in addCourseButton widget.
   TribeCourseRecord? newCourseDoc;
-  // State field(s) for mobileFilterChoiceChips widget.
-  FormFieldController<List<String>>? mobileFilterChoiceChipsValueController;
-  String? get mobileFilterChoiceChipsValue =>
-      mobileFilterChoiceChipsValueController?.value?.firstOrNull;
-  set mobileFilterChoiceChipsValue(String? val) =>
-      mobileFilterChoiceChipsValueController?.value = val != null ? [val] : [];
   // Model for GroupListDrawerContent component.
   late GroupListDrawerContentModel groupListDrawerContentModel;
+
+  /// Query cache managers for this widget.
+
+  final _courseListManager = StreamRequestManager<List<TribeCourseRecord>>();
+  Stream<List<TribeCourseRecord>> courseList({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Stream<List<TribeCourseRecord>> Function() requestFn,
+  }) =>
+      _courseListManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearCourseListCache() => _courseListManager.clear();
+  void clearCourseListCacheKey(String? uniqueKey) =>
+      _courseListManager.clearRequest(uniqueKey);
 
   @override
   void initState(BuildContext context) {
@@ -84,5 +103,9 @@ class CoursesListModel extends FlutterFlowModel<CoursesListWidget> {
     desktopFilterTextFieldTextController?.dispose();
 
     groupListDrawerContentModel.dispose();
+
+    /// Dispose query cache managers for this widget.
+
+    clearCourseListCache();
   }
 }

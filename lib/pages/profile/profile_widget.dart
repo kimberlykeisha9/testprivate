@@ -1180,13 +1180,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                             logFirebaseEvent(
                                                                 'PROFILE_PAGE_SIGN_OUT_BTN_ON_TAP');
                                                             logFirebaseEvent(
-                                                                'Button_update_app_state');
-                                                            FFAppState()
-                                                                .deleteCurrentUserGroupList();
-                                                            FFAppState()
-                                                                .currentUserGroupList = [];
-
-                                                            logFirebaseEvent(
                                                                 'Button_auth');
                                                             GoRouter.of(context)
                                                                 .prepareAuthEvent();
@@ -1195,11 +1188,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                             GoRouter.of(context)
                                                                 .clearRedirectLocation();
 
-                                                            logFirebaseEvent(
-                                                                'Button_navigate_to');
-
                                                             context.goNamedAuth(
-                                                                'EntryPage',
+                                                                'entryRedirect',
                                                                 context
                                                                     .mounted);
                                                           },
@@ -1627,16 +1617,19 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                       'Button_auth');
                                                   await authManager
                                                       .deleteUser(context);
-                                                  logFirebaseEvent(
-                                                      'Button_navigate_to');
 
-                                                  context
-                                                      .pushNamed('EntryPage');
+                                                  context.goNamedAuth(
+                                                      'ReturningRedirect',
+                                                      context.mounted);
 
                                                   return;
                                                 } else {
                                                   return;
                                                 }
+
+                                                context.goNamedAuth(
+                                                    'ReturningRedirect',
+                                                    context.mounted);
                                               },
                                               text: 'Delete All Account Data',
                                               options: FFButtonOptions(

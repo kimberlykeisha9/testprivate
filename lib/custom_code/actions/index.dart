@@ -11,5 +11,5 @@ export 'print_list_to_console.dart' show printListToConsole;
 export 'refresh_remote_config.dart' show refreshRemoteConfig;
 export 'reorder_user_badges.dart' show reorderUserBadges;
 export 'show_update_dialog.dart' show showUpdateDialog;
-export 'get_unread_notification_count.dart' show getUnreadNotificationCount;
 export 'create_room.dart' show createRoom;
+export 'get_unread_notification_count.dart' show getUnreadNotificationCount;

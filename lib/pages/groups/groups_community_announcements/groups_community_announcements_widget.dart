@@ -203,50 +203,6 @@ class _GroupsCommunityAnnouncementsWidgetState
                         alignment: Alignment(0.0, 0.0),
                       ),
                     ),
-                    if (responsiveVisibility(
-                      context: context,
-                      phone: false,
-                      tablet: false,
-                      tabletLandscape: false,
-                      desktop: false,
-                    ))
-                      InkWell(
-                        splashColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () async {
-                          logFirebaseEvent(
-                              'GROUPS_COMMUNITY_ANNOUNCEMENTS_Text_fje6');
-                          logFirebaseEvent('Text_navigate_to');
-
-                          context.pushNamed(
-                            'EditGroupAdmin',
-                            queryParameters: {
-                              'groupRef': serializeParam(
-                                widget!.groupDoc?.reference,
-                                ParamType.DocumentReference,
-                              ),
-                            }.withoutNulls,
-                          );
-                        },
-                        child: Text(
-                          'EDIT GROUP',
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                fontFamily: FlutterFlowTheme.of(context)
-                                    .bodyMediumFamily,
-                                color:
-                                    FlutterFlowTheme.of(context).primaryBtnText,
-                                fontSize: 14.0,
-                                letterSpacing: 0.0,
-                                useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                    FlutterFlowTheme.of(context)
-                                        .bodyMediumFamily),
-                              ),
-                        ),
-                      ),
                     wrapWithModel(
                       model: _model.profileButtonModel,
                       updateCallback: () => safeSetState(() {}),

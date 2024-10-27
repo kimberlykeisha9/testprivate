@@ -18,8 +18,6 @@ export '/pages/groups/groups_next_steps/groups_next_steps_widget.dart'
     show GroupsNextStepsWidget;
 export '/pages/groups/groups_community_f_b/groups_community_f_b_widget.dart'
     show GroupsCommunityFBWidget;
-export '/courses/edit_group_admin/edit_group_admin_widget.dart'
-    show EditGroupAdminWidget;
 export '/courses/group_content/group_content_widget.dart'
     show GroupContentWidget;
 export '/pages/wip/content/go_live/discussion_post/discussion_post_widget.dart'
@@ -36,8 +34,6 @@ export '/pages/auth/discussion_post_redirect/discussion_post_redirect_widget.dar
 export '/upload_test/upload_test_widget.dart' show UploadTestWidget;
 export '/pages/groups/explore_groups/explore_groups_widget.dart'
     show ExploreGroupsWidget;
-export '/pages/admin_dashboard/dashboard_content/dashboard_content_widget.dart'
-    show DashboardContentWidget;
 export '/pages/admin_dashboard/dashboard_members/dashboard_members_widget.dart'
     show DashboardMembersWidget;
 export '/pages/groups/groups_events2/groups_events2_widget.dart'
@@ -59,11 +55,6 @@ export '/pages/auth/notifications/notifications_widget.dart'
     show NotificationsWidget;
 export '/pages/group_members_list/group_members_list_widget.dart'
     show GroupMembersListWidget;
-export '/chat_2_details/chat2_details_widget.dart' show Chat2DetailsWidget;
-export '/chat/chat_2_main/chat2_main_widget.dart' show Chat2MainWidget;
-export '/chat/chat_2_invite_users/chat2_invite_users_widget.dart'
-    show Chat2InviteUsersWidget;
-export '/chat/image_details/image_details_widget.dart' show ImageDetailsWidget;
 export '/pages/admin_dashboard/dashboard_platform_settings/dashboard_platform_settings_widget.dart'
     show DashboardPlatformSettingsWidget;
 export '/pages/admin_dashboard/dashboard_users/dashboard_users_widget.dart'
@@ -79,7 +70,7 @@ export '/pages/admin_dashboard/download/download_widget.dart'
     show DownloadWidget;
 export '/pages/admin_dashboard/dashboard_admin_reply/dashboard_admin_reply_widget.dart'
     show DashboardAdminReplyWidget;
-export '/chat/new_chat/a_new_chat_page/group_n_e_w_c_h_a_t/group_n_e_w_c_h_a_t_widget.dart'
+export '/acme_chat/a_new_chat_page/group_n_e_w_c_h_a_t/group_n_e_w_c_h_a_t_widget.dart'
     show GroupNEWCHATWidget;
-export '/chat/new_chat/a_new_chat_page/page_new_chat/page_new_chat_widget.dart'
+export '/acme_chat/a_new_chat_page/page_new_chat/page_new_chat_widget.dart'
     show PageNewChatWidget;

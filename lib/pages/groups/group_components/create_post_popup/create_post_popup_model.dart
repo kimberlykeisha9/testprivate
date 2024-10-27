@@ -43,6 +43,8 @@ class CreatePostPopupModel extends FlutterFlowModel<CreatePostPopupWidget> {
     updateFn(uploadedMediaType ??= MediaUrlWithTypeStruct());
   }
 
+  bool isLoading = false;
+
   ///  State fields for stateful widgets in this component.
 
   final formKey = GlobalKey<FormState>();

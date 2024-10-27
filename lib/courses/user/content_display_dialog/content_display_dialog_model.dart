@@ -1,4 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/backend/schema/enums/enums.dart';
 import '/components/empty_list/empty_list_widget.dart';
@@ -11,7 +12,6 @@ import '/actions/actions.dart' as action_blocks;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'content_display_dialog_widget.dart' show ContentDisplayDialogWidget;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +21,10 @@ class ContentDisplayDialogModel
     extends FlutterFlowModel<ContentDisplayDialogWidget> {
   ///  State fields for stateful widgets in this component.
 
+  // Stores action output result for [Backend Call - API (completeGroupContent)] action in Completed widget.
+  ApiCallResponse? markCompleted;
+  // Stores action output result for [Backend Call - API (completeGroupContent)] action in Incomplete widget.
+  ApiCallResponse? markIncompleted;
   // State field(s) for TabBar widget.
   TabController? tabBarController;
   int get tabBarCurrentIndex =>

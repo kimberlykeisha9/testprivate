@@ -61,8 +61,8 @@ class _ProfileButtonWidgetState extends State<ProfileButtonWidget> {
     return Align(
       alignment: AlignmentDirectional(-1.0, -1.0),
       child: Container(
-        width: 35.0,
-        height: 35.0,
+        width: 40.0,
+        height: 40.0,
         child: Stack(
           alignment: AlignmentDirectional(0.0, 0.0),
           children: [
@@ -97,8 +97,8 @@ class _ProfileButtonWidgetState extends State<ProfileButtonWidget> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50.0),
                   child: Container(
-                    width: 35.0,
-                    height: 35.0,
+                    width: 40.0,
+                    height: 40.0,
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).primaryBackground,
                       borderRadius: BorderRadius.circular(50.0),
@@ -111,14 +111,14 @@ class _ProfileButtonWidgetState extends State<ProfileButtonWidget> {
                           currentUserPhoto,
                           'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/one-hundred-x-dxpmh3/assets/urudd5qbm9oj/blank-200.jpeg',
                         ),
-                        width: 35.0,
-                        height: 35.0,
+                        width: 40.0,
+                        height: 40.0,
                         fit: BoxFit.cover,
                         errorWidget: (context, error, stackTrace) =>
                             Image.asset(
                           'assets/images/error_image.jpg',
-                          width: 35.0,
-                          height: 35.0,
+                          width: 40.0,
+                          height: 40.0,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -127,12 +127,12 @@ class _ProfileButtonWidgetState extends State<ProfileButtonWidget> {
                 ),
               ),
             ),
-            if (FFAppState().notificationCount >= 0)
+            if (FFAppState().notificationCount != 0)
               Align(
                 alignment: AlignmentDirectional(1.0, -1.0),
                 child: Container(
-                  width: 15.0,
-                  height: 15.0,
+                  width: 16.0,
+                  height: 16.0,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).primary,
                     boxShadow: [
@@ -160,7 +160,7 @@ class _ProfileButtonWidgetState extends State<ProfileButtonWidget> {
                                 FlutterFlowTheme.of(context).bodyMediumFamily,
                             color: FlutterFlowTheme.of(context)
                                 .secondaryBackground,
-                            fontSize: 8.0,
+                            fontSize: 9.0,
                             letterSpacing: 0.0,
                             fontWeight: FontWeight.bold,
                             useGoogleFonts: GoogleFonts.asMap().containsKey(

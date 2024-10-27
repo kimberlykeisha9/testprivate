@@ -444,42 +444,35 @@ class _ExploreGroupsWidgetState extends State<ExploreGroupsWidget>
                                                   alignment:
                                                       AlignmentDirectional(
                                                           1.0, 0.0),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 5.0,
-                                                                5.0, 5.0),
-                                                    child:
-                                                        FlutterFlowIconButton(
-                                                      borderColor:
-                                                          Colors.transparent,
-                                                      borderRadius: 20.0,
-                                                      borderWidth: 1.0,
-                                                      buttonSize: 35.0,
-                                                      icon: Icon(
-                                                        Icons.clear,
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .secondaryText,
-                                                        size: 18.0,
-                                                      ),
-                                                      onPressed: () async {
-                                                        logFirebaseEvent(
-                                                            'EXPLORE_GROUPS_PAGE_clear_ICN_ON_TAP');
-                                                        logFirebaseEvent(
-                                                            'IconButton_clear_text_fields_pin_codes');
-                                                        safeSetState(() {
-                                                          _model
-                                                              .filterTextFieldTextController
-                                                              ?.clear();
-                                                        });
-                                                        logFirebaseEvent(
-                                                            'IconButton_update_page_state');
-
-                                                        safeSetState(() {});
-                                                      },
+                                                  child: FlutterFlowIconButton(
+                                                    borderColor:
+                                                        Colors.transparent,
+                                                    borderRadius: 20.0,
+                                                    borderWidth: 1.0,
+                                                    buttonSize: 48.0,
+                                                    icon: Icon(
+                                                      Icons.clear,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .secondaryText,
+                                                      size: 18.0,
                                                     ),
+                                                    onPressed: () async {
+                                                      logFirebaseEvent(
+                                                          'EXPLORE_GROUPS_PAGE_clear_ICN_ON_TAP');
+                                                      logFirebaseEvent(
+                                                          'IconButton_clear_text_fields_pin_codes');
+                                                      safeSetState(() {
+                                                        _model
+                                                            .filterTextFieldTextController
+                                                            ?.clear();
+                                                      });
+                                                      logFirebaseEvent(
+                                                          'IconButton_update_page_state');
+
+                                                      safeSetState(() {});
+                                                    },
                                                   ),
                                                 ),
                                               ],

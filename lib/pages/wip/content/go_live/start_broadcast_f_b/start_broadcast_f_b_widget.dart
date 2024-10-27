@@ -203,33 +203,35 @@ class _StartBroadcastFBWidgetState extends State<StartBroadcastFBWidget> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).primaryText,
-                    ),
-                    alignment: AlignmentDirectional(-1.0, 0.0),
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: InkWell(
-                        splashColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () async {
-                          logFirebaseEvent(
-                              'START_BROADCAST_F_B_Icon_bp2jakin_ON_TAP');
-                          logFirebaseEvent('Icon_navigate_back');
-                          context.pop();
-                        },
-                        child: Icon(
-                          Icons.chevron_left,
-                          color: FlutterFlowTheme.of(context).primaryBtnText,
-                          size: 30.0,
+                  if (startBroadcastFBBroadcastsRecord.userId !=
+                      currentUserReference)
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).primaryText,
+                      ),
+                      alignment: AlignmentDirectional(-1.0, 0.0),
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            logFirebaseEvent(
+                                'START_BROADCAST_F_B_Icon_bp2jakin_ON_TAP');
+                            logFirebaseEvent('Icon_navigate_back');
+                            context.pop();
+                          },
+                          child: Icon(
+                            Icons.chevron_left,
+                            color: FlutterFlowTheme.of(context).primaryBtnText,
+                            size: 30.0,
+                          ),
                         ),
                       ),
                     ),
-                  ),
                   Expanded(
                     child: Builder(
                       builder: (context) {

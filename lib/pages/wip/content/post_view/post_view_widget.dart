@@ -93,19 +93,15 @@ class _PostViewWidgetState extends State<PostViewWidget> {
       if (valueOrDefault(currentUserDocument?.tribeToken, '') != null &&
           valueOrDefault(currentUserDocument?.tribeToken, '') != '') {
         if (widget!.postID != null) {
-          logFirebaseEvent('PostView_update_app_state');
-          FFAppState().hasLiked = widget!.hasLiked!;
-          FFAppState().likeCount = widget!.likeCount!;
-          FFAppState().update(() {});
           if (widget!.pageSource == 'content') {
             if (widget!.completed!) {
-              logFirebaseEvent('PostView_update_app_state');
-              FFAppState().complete = true;
-              FFAppState().update(() {});
+              logFirebaseEvent('PostView_update_page_state');
+              _model.completed = true;
+              safeSetState(() {});
             } else {
-              logFirebaseEvent('PostView_update_app_state');
-              FFAppState().complete = false;
-              FFAppState().update(() {});
+              logFirebaseEvent('PostView_update_page_state');
+              _model.completed = false;
+              safeSetState(() {});
             }
           }
           logFirebaseEvent('PostView_wait__delay');
@@ -151,9 +147,6 @@ class _PostViewWidgetState extends State<PostViewWidget> {
 
     _model.commentBoxTextController ??= TextEditingController();
     _model.commentBoxFocusNode ??= FocusNode();
-
-    _model.commentBoxFocusTextController ??= TextEditingController();
-    _model.commentBoxFocusFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -327,6 +320,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                                                   .fromSTEB(
                                                       0.0, 12.0, 0.0, 0.0),
                                               child: SingleChildScrollView(
+                                                primary: false,
                                                 child: Column(
                                                   mainAxisSize:
                                                       MainAxisSize.max,
@@ -416,6 +410,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                                                                 padding:
                                                                     EdgeInsets
                                                                         .zero,
+                                                                primary: false,
                                                                 shrinkWrap:
                                                                     true,
                                                                 scrollDirection:
@@ -1207,8 +1202,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                                                         children: [
                                                           if ((widget!.pageSource ==
                                                                   'content') &&
-                                                              !FFAppState()
-                                                                  .complete)
+                                                              !_model.completed)
                                                             FFButtonWidget(
                                                               onPressed:
                                                                   () async {
@@ -1235,13 +1229,11 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                                                                         ?.succeeded ??
                                                                     true)) {
                                                                   logFirebaseEvent(
-                                                                      'Completed_update_app_state');
-                                                                  FFAppState()
-                                                                          .complete =
+                                                                      'Completed_update_page_state');
+                                                                  _model.completed =
                                                                       true;
-                                                                  FFAppState()
-                                                                      .update(
-                                                                          () {});
+                                                                  safeSetState(
+                                                                      () {});
                                                                   logFirebaseEvent(
                                                                       'Completed_show_snack_bar');
                                                                   ScaffoldMessenger.of(
@@ -1368,8 +1360,7 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                                                             ),
                                                           if ((widget!.pageSource ==
                                                                   'content') &&
-                                                              FFAppState()
-                                                                  .complete)
+                                                              _model.completed)
                                                             FFButtonWidget(
                                                               onPressed:
                                                                   () async {
@@ -1396,13 +1387,11 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                                                                         ?.succeeded ??
                                                                     true)) {
                                                                   logFirebaseEvent(
-                                                                      'Incomplete_update_app_state');
-                                                                  FFAppState()
-                                                                          .complete =
+                                                                      'Incomplete_update_page_state');
+                                                                  _model.completed =
                                                                       false;
-                                                                  FFAppState()
-                                                                      .update(
-                                                                          () {});
+                                                                  safeSetState(
+                                                                      () {});
                                                                   logFirebaseEvent(
                                                                       'Incomplete_show_snack_bar');
                                                                   ScaffoldMessenger.of(
@@ -2847,9 +2836,6 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                                                                           _model
                                                                               .commentBoxTextController
                                                                               ?.clear();
-                                                                          _model
-                                                                              .commentBoxFocusTextController
-                                                                              ?.clear();
                                                                         });
                                                                         logFirebaseEvent(
                                                                             'Button_show_snack_bar');
@@ -2904,9 +2890,9 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                                                                     options:
                                                                         FFButtonOptions(
                                                                       width:
-                                                                          40.0,
+                                                                          48.0,
                                                                       height:
-                                                                          40.0,
+                                                                          48.0,
                                                                       padding: EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
                                                                           0.0,
@@ -2961,348 +2947,6 @@ class _PostViewWidgetState extends State<PostViewWidget> {
                                                   ),
                                                 ),
                                               ),
-                                              if ((widget!.commentFocus ??
-                                                      true) &&
-                                                  responsiveVisibility(
-                                                    context: context,
-                                                    phone: false,
-                                                    tablet: false,
-                                                    tabletLandscape: false,
-                                                    desktop: false,
-                                                  ))
-                                                Container(
-                                                  width: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        blurRadius: 4.0,
-                                                        color:
-                                                            Color(0x1A000000),
-                                                        offset: Offset(
-                                                          0.0,
-                                                          2.0,
-                                                        ),
-                                                      )
-                                                    ],
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            0.0),
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 5.0,
-                                                                0.0, 5.0),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Expanded(
-                                                          child: Container(
-                                                            height: 80.0,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .secondaryBackground,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          0.0),
-                                                            ),
-                                                            alignment:
-                                                                AlignmentDirectional(
-                                                                    0.0, 0.0),
-                                                            child: Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          8.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            15.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                    child:
-                                                                        AuthUserStreamWidget(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              ClipRRect(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(40.0),
-                                                                        child: Image
-                                                                            .network(
-                                                                          valueOrDefault<
-                                                                              String>(
-                                                                            currentUserPhoto,
-                                                                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/one-hundred-x-dxpmh3/assets/urudd5qbm9oj/blank-200.jpeg',
-                                                                          ),
-                                                                          width:
-                                                                              40.0,
-                                                                          height:
-                                                                              40.0,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  Expanded(
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          18.0,
-                                                                          0.0,
-                                                                          4.0,
-                                                                          0.0),
-                                                                      child:
-                                                                          TextFormField(
-                                                                        controller:
-                                                                            _model.commentBoxFocusTextController,
-                                                                        focusNode:
-                                                                            _model.commentBoxFocusFocusNode,
-                                                                        autofocus:
-                                                                            true,
-                                                                        textCapitalization:
-                                                                            TextCapitalization.sentences,
-                                                                        obscureText:
-                                                                            false,
-                                                                        decoration:
-                                                                            InputDecoration(
-                                                                          hintText:
-                                                                              'Leave a Comment',
-                                                                          hintStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .override(
-                                                                                fontFamily: 'Open Sans',
-                                                                                color: FlutterFlowTheme.of(context).grayIcon,
-                                                                                fontSize: 15.0,
-                                                                                letterSpacing: 0.0,
-                                                                                useGoogleFonts: GoogleFonts.asMap().containsKey('Open Sans'),
-                                                                              ),
-                                                                          enabledBorder:
-                                                                              OutlineInputBorder(
-                                                                            borderSide:
-                                                                                BorderSide(
-                                                                              color: Color(0x00000000),
-                                                                              width: 0.0,
-                                                                            ),
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(8.0),
-                                                                          ),
-                                                                          focusedBorder:
-                                                                              OutlineInputBorder(
-                                                                            borderSide:
-                                                                                BorderSide(
-                                                                              color: Color(0x00000000),
-                                                                              width: 0.0,
-                                                                            ),
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(8.0),
-                                                                          ),
-                                                                          errorBorder:
-                                                                              OutlineInputBorder(
-                                                                            borderSide:
-                                                                                BorderSide(
-                                                                              color: Color(0x00000000),
-                                                                              width: 0.0,
-                                                                            ),
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(8.0),
-                                                                          ),
-                                                                          focusedErrorBorder:
-                                                                              OutlineInputBorder(
-                                                                            borderSide:
-                                                                                BorderSide(
-                                                                              color: Color(0x00000000),
-                                                                              width: 0.0,
-                                                                            ),
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(8.0),
-                                                                          ),
-                                                                        ),
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              fontFamily: 'Open Sans',
-                                                                              fontSize: 15.0,
-                                                                              letterSpacing: 0.0,
-                                                                              useGoogleFonts: GoogleFonts.asMap().containsKey('Open Sans'),
-                                                                              lineHeight: 1.1,
-                                                                            ),
-                                                                        maxLines:
-                                                                            4,
-                                                                        minLines:
-                                                                            1,
-                                                                        keyboardType:
-                                                                            TextInputType.multiline,
-                                                                        validator: _model
-                                                                            .commentBoxFocusTextControllerValidator
-                                                                            .asValidator(context),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            15.0,
-                                                                            0.0),
-                                                                    child:
-                                                                        FFButtonWidget(
-                                                                      onPressed:
-                                                                          () async {
-                                                                        logFirebaseEvent(
-                                                                            'POST_VIEW_PAGE__BTN_ON_TAP');
-                                                                        logFirebaseEvent(
-                                                                            'Button_backend_call');
-                                                                        _model.chatResponse =
-                                                                            await CreateChatCall.call(
-                                                                          token: valueOrDefault(
-                                                                              currentUserDocument?.tribeToken,
-                                                                              ''),
-                                                                          userId: FFAppState()
-                                                                              .userID
-                                                                              .toString(),
-                                                                          contentId:
-                                                                              widget!.postID,
-                                                                          message: _model
-                                                                              .commentBoxFocusTextController
-                                                                              .text,
-                                                                          baseURL:
-                                                                              getRemoteConfigString('AppBaseApiUrl'),
-                                                                        );
-
-                                                                        if ((_model.chatResponse?.succeeded ??
-                                                                            true)) {
-                                                                          logFirebaseEvent(
-                                                                              'Button_clear_text_fields_pin_codes');
-                                                                          safeSetState(
-                                                                              () {
-                                                                            _model.commentBoxFocusTextController?.clear();
-                                                                            _model.commentBoxTextController?.clear();
-                                                                          });
-                                                                          logFirebaseEvent(
-                                                                              'Button_show_snack_bar');
-                                                                          ScaffoldMessenger.of(context)
-                                                                              .showSnackBar(
-                                                                            SnackBar(
-                                                                              content: Text(
-                                                                                'Message Posted!',
-                                                                                style: TextStyle(
-                                                                                  color: FlutterFlowTheme.of(context).primaryBtnText,
-                                                                                  fontWeight: FontWeight.bold,
-                                                                                ),
-                                                                              ),
-                                                                              duration: Duration(milliseconds: 2000),
-                                                                              backgroundColor: FlutterFlowTheme.of(context).tertiary400,
-                                                                            ),
-                                                                          );
-                                                                        } else {
-                                                                          logFirebaseEvent(
-                                                                              'Button_show_snack_bar');
-                                                                          ScaffoldMessenger.of(context)
-                                                                              .showSnackBar(
-                                                                            SnackBar(
-                                                                              content: Text(
-                                                                                'Failed to post comment.',
-                                                                                style: TextStyle(
-                                                                                  color: Colors.white,
-                                                                                ),
-                                                                              ),
-                                                                              duration: Duration(milliseconds: 4000),
-                                                                              backgroundColor: FlutterFlowTheme.of(context).alternate,
-                                                                            ),
-                                                                          );
-                                                                        }
-
-                                                                        safeSetState(
-                                                                            () {});
-                                                                      },
-                                                                      text: '',
-                                                                      icon:
-                                                                          Icon(
-                                                                        Icons
-                                                                            .send,
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .accent1,
-                                                                        size:
-                                                                            20.0,
-                                                                      ),
-                                                                      options:
-                                                                          FFButtonOptions(
-                                                                        width:
-                                                                            40.0,
-                                                                        height:
-                                                                            40.0,
-                                                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                        iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                                                            10.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .primary,
-                                                                        textStyle: FlutterFlowTheme.of(context)
-                                                                            .titleSmall
-                                                                            .override(
-                                                                              fontFamily: 'Outfit',
-                                                                              color: Colors.white,
-                                                                              fontSize: 16.0,
-                                                                              letterSpacing: 0.0,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              useGoogleFonts: GoogleFonts.asMap().containsKey('Outfit'),
-                                                                            ),
-                                                                        elevation:
-                                                                            0.0,
-                                                                        borderSide:
-                                                                            BorderSide(
-                                                                          color:
-                                                                              Colors.transparent,
-                                                                          width:
-                                                                              1.0,
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(50.0),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
                                             ],
                                           ),
                                         ),

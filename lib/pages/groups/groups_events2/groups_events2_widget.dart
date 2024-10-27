@@ -1,4 +1,3 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/group_list_drawer_content/group_list_drawer_content_widget.dart';
 import '/components/profile_button_widget.dart';
@@ -103,82 +102,12 @@ class _GroupsEvents2WidgetState extends State<GroupsEvents2Widget> {
                         },
                       ),
                     ),
-                    InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onLongPress: () async {
-                        logFirebaseEvent(
-                            'GROUPS_EVENTS2_Image_lzjdaleq_ON_LONG_PR');
-                        logFirebaseEvent('Image_update_app_state');
-                        FFAppState().deleteUserID();
-                        FFAppState().userID = 0;
-
-                        FFAppState().deleteCurrentUserGroupList();
-                        FFAppState().currentUserGroupList = [];
-
-                        FFAppState().update(() {});
-                        logFirebaseEvent('Image_auth');
-                        GoRouter.of(context).prepareAuthEvent();
-                        await authManager.signOut();
-                        GoRouter.of(context).clearRedirectLocation();
-
-                        logFirebaseEvent('Image_navigate_to');
-
-                        context.pushNamedAuth('EntryPage', context.mounted);
-                      },
-                      child: Image.network(
-                        widget!.groupDoc!.featuredImg,
-                        width: 100.0,
-                        height: 50.0,
-                        fit: BoxFit.contain,
-                      ),
+                    Image.network(
+                      widget!.groupDoc!.featuredImg,
+                      width: 100.0,
+                      height: 50.0,
+                      fit: BoxFit.contain,
                     ),
-                    if (responsiveVisibility(
-                      context: context,
-                      phone: false,
-                      tablet: false,
-                      tabletLandscape: false,
-                      desktop: false,
-                    ))
-                      InkWell(
-                        splashColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () async {
-                          logFirebaseEvent(
-                              'GROUPS_EVENTS2_PAGE_Text_g1g1zw3p_ON_TAP');
-                          logFirebaseEvent('Text_navigate_to');
-
-                          context.pushNamed(
-                            'EditGroupAdmin',
-                            queryParameters: {
-                              'groupRef': serializeParam(
-                                widget!.groupDoc?.reference,
-                                ParamType.DocumentReference,
-                              ),
-                            }.withoutNulls,
-                          );
-                        },
-                        child: Text(
-                          'EDIT GROUP',
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                fontFamily: FlutterFlowTheme.of(context)
-                                    .bodyMediumFamily,
-                                color:
-                                    FlutterFlowTheme.of(context).primaryBtnText,
-                                fontSize: 14.0,
-                                letterSpacing: 0.0,
-                                useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                    FlutterFlowTheme.of(context)
-                                        .bodyMediumFamily),
-                              ),
-                        ),
-                      ),
                     wrapWithModel(
                       model: _model.profileButtonModel,
                       updateCallback: () => safeSetState(() {}),

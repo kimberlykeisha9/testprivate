@@ -112,7 +112,7 @@ class _ReplyToCommentFBWidgetState extends State<ReplyToCommentFBWidget> {
                               borderColor: Colors.transparent,
                               borderRadius: 30.0,
                               borderWidth: 1.0,
-                              buttonSize: 35.0,
+                              buttonSize: 48.0,
                               icon: Icon(
                                 Icons.close,
                                 color: FlutterFlowTheme.of(context).grayIcon,
@@ -191,7 +191,7 @@ class _ReplyToCommentFBWidgetState extends State<ReplyToCommentFBWidget> {
                                                 decoration: BoxDecoration(
                                                   color: FlutterFlowTheme.of(
                                                           context)
-                                                      .tertiary,
+                                                      .primaryBackground,
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           12.0),
@@ -228,36 +228,6 @@ class _ReplyToCommentFBWidgetState extends State<ReplyToCommentFBWidget> {
                                                                       'Open Sans'),
                                                             ),
                                                       ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    5.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        child: Text(
-                                                          containerChatMessagesRecord
-                                                              .message,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Open Sans',
-                                                                fontSize: 14.0,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                                useGoogleFonts: GoogleFonts
-                                                                        .asMap()
-                                                                    .containsKey(
-                                                                        'Open Sans'),
-                                                              ),
-                                                        ),
-                                                      ),
                                                       custom_widgets
                                                           .LinkableText(
                                                         width:
@@ -271,6 +241,10 @@ class _ReplyToCommentFBWidgetState extends State<ReplyToCommentFBWidget> {
                                                                 .message,
                                                         textSize: 14.0,
                                                         limitTextLength: false,
+                                                        textColor:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryText,
                                                       ),
                                                       Padding(
                                                         padding:
@@ -424,7 +398,7 @@ class _ReplyToCommentFBWidgetState extends State<ReplyToCommentFBWidget> {
                                                                         BoxDecoration(
                                                                       color: FlutterFlowTheme.of(
                                                                               context)
-                                                                          .tertiary,
+                                                                          .primaryBackground,
                                                                       borderRadius:
                                                                           BorderRadius.circular(
                                                                               12.0),
@@ -851,8 +825,8 @@ class _ReplyToCommentFBWidgetState extends State<ReplyToCommentFBWidget> {
                                             size: 20.0,
                                           ),
                                           options: FFButtonOptions(
-                                            width: 40.0,
-                                            height: 40.0,
+                                            width: 48.0,
+                                            height: 48.0,
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 0.0, 0.0),

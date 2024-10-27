@@ -26,6 +26,10 @@ import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 
 class PostViewModel extends FlutterFlowModel<PostViewWidget> {
+  ///  Local state fields for this page.
+
+  bool completed = false;
+
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Backend Call - API (viewPost)] action in PostView widget.
@@ -52,13 +56,6 @@ class PostViewModel extends FlutterFlowModel<PostViewWidget> {
   String? Function(BuildContext, String?)? commentBoxTextControllerValidator;
   // Stores action output result for [Backend Call - API (createChat)] action in Button widget.
   ApiCallResponse? chatResponse2;
-  // State field(s) for commentBoxFocus widget.
-  FocusNode? commentBoxFocusFocusNode;
-  TextEditingController? commentBoxFocusTextController;
-  String? Function(BuildContext, String?)?
-      commentBoxFocusTextControllerValidator;
-  // Stores action output result for [Backend Call - API (createChat)] action in Button widget.
-  ApiCallResponse? chatResponse;
 
   @override
   void initState(BuildContext context) {
@@ -77,8 +74,5 @@ class PostViewModel extends FlutterFlowModel<PostViewWidget> {
     groupNavigationModel.dispose();
     commentBoxFocusNode?.dispose();
     commentBoxTextController?.dispose();
-
-    commentBoxFocusFocusNode?.dispose();
-    commentBoxFocusTextController?.dispose();
   }
 }

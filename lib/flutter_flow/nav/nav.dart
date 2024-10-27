@@ -371,22 +371,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
-              name: 'EditGroupAdmin',
-              path: 'editGroupAdmin',
-              builder: (context, params) => EditGroupAdminWidget(
-                groupRef: params.getParam(
-                  'groupRef',
-                  ParamType.DocumentReference,
-                  isList: false,
-                  collectionNamePath: ['TribeGroups'],
-                ),
-                isEdit: params.getParam(
-                  'isEdit',
-                  ParamType.bool,
-                ),
-              ),
-            ),
-            FFRoute(
               name: 'GroupContent',
               path: 'groupContent',
               requireAuth: true,
@@ -541,11 +525,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   ParamType.Document,
                 ),
               ),
-            ),
-            FFRoute(
-              name: 'DashboardContent',
-              path: 'Content',
-              builder: (context, params) => DashboardContentWidget(),
             ),
             FFRoute(
               name: 'DashboardMembers',
@@ -717,62 +696,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => GroupMembersListWidget(
                 groupDoc: params.getParam(
                   'groupDoc',
-                  ParamType.Document,
-                ),
-              ),
-            ),
-            FFRoute(
-              name: 'chat_2_Details',
-              path: 'chat2Details',
-              asyncParams: {
-                'chatRef': getDoc(['direct_messages_chat'],
-                    DirectMessagesChatRecord.fromSnapshot),
-              },
-              builder: (context, params) => Chat2DetailsWidget(
-                chatRef: params.getParam(
-                  'chatRef',
-                  ParamType.Document,
-                ),
-              ),
-            ),
-            FFRoute(
-              name: 'chat_2_main',
-              path: 'chat2Main',
-              asyncParams: {
-                'chat': getDoc(['direct_messages_chat'],
-                    DirectMessagesChatRecord.fromSnapshot),
-              },
-              builder: (context, params) => Chat2MainWidget(
-                chat: params.getParam(
-                  'chat',
-                  ParamType.Document,
-                ),
-              ),
-            ),
-            FFRoute(
-              name: 'chat_2_InviteUsers',
-              path: 'chat2InviteUsers',
-              asyncParams: {
-                'chatRef': getDoc(['direct_messages_chat'],
-                    DirectMessagesChatRecord.fromSnapshot),
-              },
-              builder: (context, params) => Chat2InviteUsersWidget(
-                chatRef: params.getParam(
-                  'chatRef',
-                  ParamType.Document,
-                ),
-              ),
-            ),
-            FFRoute(
-              name: 'image_Details',
-              path: 'imageDetails',
-              asyncParams: {
-                'chatMessage': getDoc(
-                    ['direct_messages'], DirectMessagesRecord.fromSnapshot),
-              },
-              builder: (context, params) => ImageDetailsWidget(
-                chatMessage: params.getParam(
-                  'chatMessage',
                   ParamType.Document,
                 ),
               ),

@@ -149,50 +149,6 @@ class _GroupsTrainingWidgetState extends State<GroupsTrainingWidget>
                           fit: BoxFit.contain,
                         ),
                       ),
-                      if (responsiveVisibility(
-                        context: context,
-                        phone: false,
-                        tablet: false,
-                        tabletLandscape: false,
-                        desktop: false,
-                      ))
-                        InkWell(
-                          splashColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: () async {
-                            logFirebaseEvent(
-                                'GROUPS_TRAINING_Text_nhixrcal_ON_TAP');
-                            logFirebaseEvent('Text_navigate_to');
-
-                            context.pushNamed(
-                              'EditGroupAdmin',
-                              queryParameters: {
-                                'groupRef': serializeParam(
-                                  widget!.groupDoc?.reference,
-                                  ParamType.DocumentReference,
-                                ),
-                              }.withoutNulls,
-                            );
-                          },
-                          child: Text(
-                            'EDIT GROUP',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: FlutterFlowTheme.of(context)
-                                      .bodyMediumFamily,
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBtnText,
-                                  fontSize: 14.0,
-                                  letterSpacing: 0.0,
-                                  useGoogleFonts: GoogleFonts.asMap()
-                                      .containsKey(FlutterFlowTheme.of(context)
-                                          .bodyMediumFamily),
-                                ),
-                          ),
-                        ),
                       wrapWithModel(
                         model: _model.profileButtonModel,
                         updateCallback: () => safeSetState(() {}),

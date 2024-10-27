@@ -2988,9 +2988,9 @@ class _DashboardAdminReplyWidgetState extends State<DashboardAdminReplyWidget> {
                                                                   ),
                                                                   options:
                                                                       FFButtonOptions(
-                                                                    width: 40.0,
+                                                                    width: 48.0,
                                                                     height:
-                                                                        40.0,
+                                                                        48.0,
                                                                     padding: EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,

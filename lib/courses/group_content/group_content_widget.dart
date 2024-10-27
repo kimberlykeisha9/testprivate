@@ -21,7 +21,6 @@ import 'dart:math';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
@@ -1772,41 +1771,6 @@ class _GroupContentWidgetState extends State<GroupContentWidget>
                                                                                   ),
                                                                                 ),
                                                                               ),
-                                                                              if (responsiveVisibility(
-                                                                                context: context,
-                                                                                phone: false,
-                                                                                tablet: false,
-                                                                                tabletLandscape: false,
-                                                                                desktop: false,
-                                                                              ))
-                                                                                Align(
-                                                                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                                                                  child: Padding(
-                                                                                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
-                                                                                    child: InkWell(
-                                                                                      splashColor: Colors.transparent,
-                                                                                      focusColor: Colors.transparent,
-                                                                                      hoverColor: Colors.transparent,
-                                                                                      highlightColor: Colors.transparent,
-                                                                                      onTap: () async {
-                                                                                        logFirebaseEvent('GROUP_CONTENT_PAGE_Text_aajxsv18_ON_TAP');
-                                                                                      },
-                                                                                      child: AutoSizeText(
-                                                                                        'EDIT',
-                                                                                        textAlign: TextAlign.center,
-                                                                                        maxLines: 2,
-                                                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                              fontFamily: 'Open Sans',
-                                                                                              color: FlutterFlowTheme.of(context).grayIcon,
-                                                                                              fontSize: 20.0,
-                                                                                              letterSpacing: 0.0,
-                                                                                              fontWeight: FontWeight.normal,
-                                                                                              useGoogleFonts: GoogleFonts.asMap().containsKey('Open Sans'),
-                                                                                            ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
                                                                             ],
                                                                           ),
                                                                         ),
